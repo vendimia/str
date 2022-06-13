@@ -1,0 +1,16 @@
+{
+    "name": "vendimia/str",
+    "description": "Vendimia String object",
+    "license": "GPL-3.0-or-later",
+    "keywords": ["php", "vendimia"],
+
+    "autoload": {
+        "psr-4": {
+            "": ["src/"]
+        }
+    },
+
+    "require": {
+        "php": "^8.1"
+    }
+}

@@ -1,15 +1,16 @@
 <?php
 
-namespace Vendimia;
+namespace Vendimia\Str;
 
 use BadFunctionCallException;
 use ArrayAccess;
 use Iterator;
+use Stringable;
 
 /**
  * String object implementation
  */
-class Str implements ArrayAccess, Iterator
+class Str implements ArrayAccess, Iterator, Stringable
 {
 
     /** The actual string */
@@ -53,7 +54,7 @@ class Str implements ArrayAccess, Iterator
     /**
      * Syntax sugar for construc a new object
      */
-    public function new($string = '', $encoding = false)
+    public static function new($string = '', $encoding = false)
     {
         return new self($string, $encoding);
     }
@@ -210,17 +211,17 @@ class Str implements ArrayAccess, Iterator
     }
 
     /***** IMPLEMENTACIÓN DEL ARRAYACCESS *****/
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $offset >= 0 && $offset < mb_strlen($this->string);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return new self(mb_substr($this->string, $offset, 1 ));
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
 
         // $value debe ser un string
@@ -232,7 +233,7 @@ class Str implements ArrayAccess, Iterator
             mb_substr($this->string, $offset + 1);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->string =
             mb_substr($this->string, 0, $offset) .
@@ -240,27 +241,27 @@ class Str implements ArrayAccess, Iterator
 
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this[$this->iter_index];
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->iter_index;
     }
 
-    public function next()
+    public function next(): void
     {
         $this->iter_index++;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->iter_index = 0;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->offsetExists($this->iter_index);
     }
